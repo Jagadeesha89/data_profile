@@ -1,17 +1,31 @@
 [project]
-name = "python-packages"
-version = "0.1.0"
-description = "Add your description here"
+name = "data-profile" 
+version = "0.1.0"        
+description = "Data profiling utilities"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "seaborn>=0.13.2",
-    "twin",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Jagadeesha89/data_profile"
+"Bug Tracker" = "https://github.com/Jagadeesha89/data_profile/issues"
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+package-dir = {"" = "."}
+
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["read_data*", "exception*", "logging*"]
+
+[dependency-groups]
+dev = [
+    "build",
+    "twine",
+]
+

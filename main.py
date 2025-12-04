@@ -1,7 +1,7 @@
 from data_profile.logging.logger import logging
 from data_profile.exception.exception import CustomPacakgeException
 import sys
-from data_profile.read_data import DataReader
+from data_profile import DataReader
 import pandas as pd
 
 

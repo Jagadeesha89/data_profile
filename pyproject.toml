@@ -21,7 +21,7 @@ package-dir = {"" = "."}
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["read_data*", "exception*", "logging*"]
+include = ["data_profile*"]
 
 [dependency-groups]
 dev = [

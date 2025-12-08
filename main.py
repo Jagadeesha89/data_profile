@@ -12,7 +12,8 @@ if __name__ == "__main__":
         logging.info("Reading data Started")
         df=pd.read_csv(data_path)
         data_sum=DataReader(df)
-        data_sum.data_summary()
+        df_1=data_sum.data_summary()
+        print(df_1)
         logging.info("Data summary completed")
     except Exception as e:
         logging.info("error occured")

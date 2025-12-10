@@ -8,13 +8,14 @@ import pandas as pd
 if __name__ == "__main__":
     try:
         logging.info("First logging started")
-        data_path="./synthetic_online_retail_data.csv"
+        data_path="D:\python_packages\Jan_23_rev.csv"
         logging.info("Reading data Started")
         df=pd.read_csv(data_path)
-        data_sum=DataReader(df)
+        data_sum=DataReader(df,y="Status",drop_cols=["Acc"])
         df_1=data_sum.data_summary()
         print(df_1)
         logging.info("Data summary completed")
+        data_sum.data_charting()
     except Exception as e:
         logging.info("error occured")
         raise CustomPacakgeException(e, sys)

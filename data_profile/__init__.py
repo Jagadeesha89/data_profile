@@ -8,12 +8,76 @@ import seaborn as sns
 import math
 
 class DataReader:
-    def __init__(self,data:pd.DataFrame,columns:int=3,y=None,figsize=(10,10),drop_cols:list=[None]):
+    """
+    DataCharting is a utility class for performing univariate data visualization
+    on numerical and categorical features of a pandas DataFrame.
+
+    It supports flexible chart types, automatic feature segregation, optional
+    target exclusion, and configurable subplot layouts.
+
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        Input dataset containing numerical and categorical columns.
+
+    columns : int, default=3
+        Number of subplot columns to be used while rendering charts.
+
+    y : str or None, default=None
+        Target column name to be excluded from feature visualization.
+
+    figsize : tuple of int, default=(10, 10)
+        Figure size for the generated plots.
+
+    drop_cols : list, default=[None]
+        List of column names to be excluded from visualization.
+
+    cat_col_chart : str, default="countplot"
+        Chart type to be used for categorical variables.
+        Supported options typically include:
+        - "countplot"
+        - "barplot"
+        
+
+    num_col_chart : str, default="histplot"
+        Chart type to be used for numerical variables.
+        Supported options typically include:
+        - "histplot"
+        - "kdeplot"
+        - "boxplot"
+
+    Attributes
+    ----------
+    data : pandas.DataFrame
+        Stored input dataset.
+
+    y : str or None
+        Target variable excluded from analysis.
+
+    figsize : tuple
+        Figure size used for plotting.
+
+    columns : int
+        Number of columns in subplot grid.
+
+    drop_cols : list
+        Columns dropped to be excluded from visualization.
+
+    cat_col_chart : str
+        Selected chart type for categorical features.
+
+    num_col_chart : str
+        Selected chart type for numerical features.
+    """
+
+    def __init__(self,data:pd.DataFrame,columns:int=3,y=None,figsize=(10,10),drop_cols:list=[None],cat_col_chart="countplot",num_col_chart="histplot"):
         self.data=data
         self.y=y
         self.figsize=figsize
         self.columns=columns
         self.drop_cols=drop_cols
+        self.cat_col_chart=cat_col_chart
+        self.num_col_chart=num_col_chart
 
     def data_summary(self):
         try:
@@ -74,7 +138,7 @@ class DataReader:
 
                 for i, col in enumerate(num_columns):
                     plt.subplot(nrows, self.columns, i + 1)
-                    sns.histplot(self.data[col], bins=30)
+                    getattr(sns,self.num_col_chart)(self.data[col])
                     plt.xlabel(col)
 
                 plt.tight_layout()
@@ -94,7 +158,7 @@ class DataReader:
 
                 for i, col in enumerate(cat_columns):
                     plt.subplot(nrows, self.columns, i + 1)
-                    sns.countplot(x=self.data[col])
+                    getattr(sns,self.cat_col_chart)(x=self.data[col])
                     plt.xlabel(col)
                     plt.xticks(rotation=45)
 

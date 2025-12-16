@@ -61,13 +61,13 @@ class DataReader:
         Number of columns in subplot grid.
 
     drop_cols : list
-        Columns dropped to be excluded from visualization.
+        Columns to be excluded from visualization.
 
     cat_col_chart : str
-        Selected chart type for categorical features.
+        Select chart type for categorical features.
 
     num_col_chart : str
-        Selected chart type for numerical features.
+        Select chart type for numerical features.
     """
 
     def __init__(self,data:pd.DataFrame,columns:int=3,y=None,figsize=(10,10),drop_cols:list=[None],cat_col_chart="countplot",num_col_chart="histplot"):

@@ -45,6 +45,8 @@ class DataReader:
         - "histplot"
         - "kdeplot"
         - "boxplot"
+        - "violinplot"
+       
 
     Attributes
     ----------
@@ -138,7 +140,15 @@ class DataReader:
 
                 for i, col in enumerate(num_columns):
                     plt.subplot(nrows, self.columns, i + 1)
-                    getattr(sns,self.num_col_chart)(self.data[col])
+
+                    if self.num_col_chart == "histplot":
+                        sns.histplot(self.data[col],bins=30)
+                    elif self.num_col_chart == "kdeplot":
+                        sns.kdeplot(self.data[col])
+                    elif self.num_col_chart == "boxplot":
+                        sns.boxplot(self.data[col])
+                    elif self.num_col_chart == "violinplot":
+                        sns.violinplot(self.data[col])
                     plt.xlabel(col)
 
                 plt.tight_layout()
@@ -158,7 +168,12 @@ class DataReader:
 
                 for i, col in enumerate(cat_columns):
                     plt.subplot(nrows, self.columns, i + 1)
-                    getattr(sns,self.cat_col_chart)(x=self.data[col])
+
+                    if self.cat_col_chart == "countplot":
+                        sns.countplot(x=self.data[col])
+                    elif self.cat_col_chart == "barplot":
+                        sns.barplot(x=self.data[col])
+        
                     plt.xlabel(col)
                     plt.xticks(rotation=45)
 

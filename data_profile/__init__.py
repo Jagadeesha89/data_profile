@@ -6,6 +6,9 @@ import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
+from tabulate import tabulate
+
+
 
 class DataReader:
     """
@@ -104,7 +107,10 @@ class DataReader:
                     "Unique Values",    
                 ]
             )
-            return summ_df
+            print(f"Total Number of Columns: {len(self.data.columns)}\n Total Number of Rows: {len(self.data)}")
+            print(tabulate(summ_df, headers="keys", tablefmt="github", showindex=False))
+
+            return None
 
         except Exception as e:
             raise CustomPacakgeException(e,sys) 

@@ -6,7 +6,7 @@ import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
-from tabulate import tabulate
+
 
 
 
@@ -107,10 +107,8 @@ class DataReader:
                     "Unique Values",    
                 ]
             )
-            print(f"Total Number of Columns: {len(self.data.columns)}\n Total Number of Rows: {len(self.data)}")
-            print(tabulate(summ_df, headers="keys", tablefmt="github", showindex=False))
-
-            return None
+            print(f"Total Number of Columns: {len(self.data.columns)}\nTotal Number of Rows: {len(self.data)}")
+            return summ_df
 
         except Exception as e:
             raise CustomPacakgeException(e,sys) 
@@ -190,4 +188,10 @@ class DataReader:
 
         except Exception as e:
             raise CustomPacakgeException(e, sys)
+
+    def data_statics(self):
+        try:
+            logging.info("Data statics started")
+            
+            
             

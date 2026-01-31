@@ -197,45 +197,18 @@ class DataReader:
             logging.info("Data charting started")
 
             # Identify categorical and numeric columns
-            cat_columns = [col for col in self.data.columns if self.data[col].dtype == "object"]
             num_columns = [col for col in self.data.columns if self.data[col].dtype != "object"]
 
-            print(f"Stats Summary of Numerical Columns :\n{self.data[num_columns].describe()}")
-
-            if len(cat_columns) > 0:
-                plt.figure(figsize=self.figsize)
-                plt.suptitle("Chi-square Test of Independence – Categorical Columns",
-                            fontsize=20, fontweight="bold", alpha=0.8, y=1.02)
-
-                nrows = math.ceil(len(cat_columns) / self.columns)
-
-                for i, col in enumerate(cat_columns):
-                    plt.subplot(nrows, self.columns, i + 1)
-                    if self.cat_col_chart == "countplot":
-                        sns.countplot(x=self.data[col])
-                    plt.xlabel(col)
-                    plt.xticks(rotation=45)
-                    a=np.array(pd.crosstab(self.data[self.y],self.data[col]))
-                    (stats,p,dof,_)=chi2_contingency(a,correction=False)
-                    if p>0.05:
-                        print(Fore.RED+"'{}'is a bad predictor".format(col))
-                        print("p_value={}\n".format(p))
-                    else:
-                        print(Fore.GREEN+"'{}'is a good predictor".format(col))
-                        print("p_value={}\n".format(p))
-                plt.tight_layout()
-                plt.show()
-                
-            else:
-                logging.info("No categorical columns available for Test.")
-
-            
+            ds=self.data[num_columns].describe()
             plt.figure(figsize=self.figsize)
             plt.suptitle("Correlation Matrix of Numerical Columns",
                         fontsize=20, fontweight="bold", alpha=0.8, y=1.02)
             sns.heatmap(self.data[num_columns].corr(),annot=True,cmap="coolwarm")
             plt.tight_layout()
             plt.show()
+            return ds
+            
+            
 
         except Exception as e:
             raise CustomPacakgeException(e, sys)

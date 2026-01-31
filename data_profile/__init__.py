@@ -1,11 +1,14 @@
 import pandas as pd 
 import numpy as np  
+import colorama
+from colorama import Fore
 from data_profile.exception.exception import CustomPacakgeException
 from data_profile.logging.logger import logging
 import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
+from scipy.stats import chi2_contingency
 
 
 
@@ -189,9 +192,60 @@ class DataReader:
         except Exception as e:
             raise CustomPacakgeException(e, sys)
 
-    def data_statics(self):
+    def stats_summary(self):
         try:
-            logging.info("Data statics started")
+            logging.info("Data charting started")
+
+            # Identify categorical and numeric columns
+            cat_columns = [col for col in self.data.columns if self.data[col].dtype == "object"]
+            num_columns = [col for col in self.data.columns if self.data[col].dtype != "object"]
+
+            print(f"Stats Summary of Numerical Columns :\n{self.data[num_columns].describe()}")
+
+            if len(cat_columns) > 0:
+                plt.figure(figsize=self.figsize)
+                plt.suptitle("Chi-square Test of Independence – Categorical Columns",
+                            fontsize=20, fontweight="bold", alpha=0.8, y=1.02)
+
+                nrows = math.ceil(len(cat_columns) / self.columns)
+
+                for i, col in enumerate(cat_columns):
+                    plt.subplot(nrows, self.columns, i + 1)
+                    if self.cat_col_chart == "countplot":
+                        sns.countplot(x=self.data[col])
+                    plt.xlabel(col)
+                    plt.xticks(rotation=45)
+                    a=np.array(pd.crosstab(self.data[self.y],self.data[col]))
+                    (stats,p,dof,_)=chi2_contingency(a,correction=False)
+                    if p>0.05:
+                        print(Fore.RED+"'{}'is a bad predictor".format(col))
+                        print("p_value={}\n".format(p))
+                    else:
+                        print(Fore.GREEN+"'{}'is a good predictor".format(col))
+                        print("p_value={}\n".format(p))
+                plt.tight_layout()
+                plt.show()
+                
+            else:
+                logging.info("No categorical columns available for Test.")
+
+            
+            plt.figure(figsize=self.figsize)
+            plt.suptitle("Correlation Matrix of Numerical Columns",
+                        fontsize=20, fontweight="bold", alpha=0.8, y=1.02)
+            sns.heatmap(self.data[num_columns].corr(),annot=True,cmap="coolwarm")
+            plt.tight_layout()
+            plt.show()
+
+        except Exception as e:
+            raise CustomPacakgeException(e, sys)
+
+
+
+
+
+
+
             
             
             

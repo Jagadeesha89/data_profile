@@ -16,6 +16,7 @@ if __name__ == "__main__":
         print(df_1)
         logging.info("Data summary completed")
         data_sum.data_charting()
+        data_sum.stats_summary()    
     except Exception as e:
         logging.info("error occured")
         raise CustomPacakgeException(e, sys)

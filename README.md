@@ -53,3 +53,9 @@ This is especially useful in **EDA (Exploratory Data Analysis)** and **data qual
     #Generate summary
     summary = data_reader.data_summary()
     summary
+
+    #Genrate the chart for Numberical and categorical columns
+    data_reader.data_charting()
+
+    #Generate the stats summary for Numberical columns
+    data_reader.stats_summary()
